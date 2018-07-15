@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/WEB-INF/calculator_page_design/base_template.xhtml"> 
+	<ui:define name="content">
+		<h:form>
+			<p:panel id="basic" header="Admin" footer="Active User: #{loginBean.username}">
+	            <p:panelGrid columns="2" cellpadding="5" styleClass="ui-noborder">
+	                <p:outputLabel value="Username:"/>
+	                <p:inputText value="#{adminPageBean.username}"/>
+	                <p:outputLabel value="Date From:"/>
+	                <p:calendar  value="#{adminPageBean.dateFrom}" pattern="dd/MM/yyyy HH:mm:ss" />
+	                <p:outputLabel value="Date To:"/>       	
+	                <p:calendar value="#{adminPageBean.dateTo}" pattern="dd/MM/yyyy HH:mm:ss" />	
+	            </p:panelGrid>
+	            <h:panelGrid columns="4">
+		            <p:commandButton value="Search" action="#{adminPageBean.search()}" ajax="false"/>
+		            <p:commandButton value="Basic" action="basicCalculator?faces-redirect=true" ajax="false"/>
+		            <p:commandButton value="Advanced" action="advancedCalculator?faces-redirect=true" ajax="false"/>
+		            <p:commandButton value="Logout" action="index?faces-redirect=true" ajax="false"/>
+	            </h:panelGrid>
+	            <p:outputLabel value="*No results found" rendered="#{adminPageBean.searchMessage eq 'Failed'}" style="color:red;"/>
+	            <h:form rendered="#{adminPageBean.searchMessage eq 'success'}">
+	            	<p:scrollPanel style="height:200px">
+		            	<p:dataTable var="calc" value="#{adminPageBean.calculations}">
+		            		<p:column headerText="UserName">
+						        <h:outputText value="#{calc.userName}" />
+						    </p:column>
+						 
+						    <p:column headerText="Calculation Requested">
+						        <h:outputText value="#{calc.calcRequested}" />
+						    </p:column>
+						 
+						    <p:column headerText="Calculation Answer">
+						        <h:outputText value="#{calc.calcAnswer}" />
+						    </p:column>
+						 
+						    <p:column headerText="Calculation Date">
+						        <h:outputText value="#{calc.calcDate}" />
+						    </p:column>
+	            		</p:dataTable>
+	            	</p:scrollPanel>
+		    	</h:form>
+	    	</p:panel>
+        </h:form>
+	</ui:define>
+</ui:composition>
+</html>
+
